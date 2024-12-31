@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import { authService } from '../services/authService';
-import '../styles/auth.css';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+  Input,
+  Button,
+  Alert,
+  AlertDescription,
+  Link
+} from './ui';
 
 export const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -20,29 +31,49 @@ export const ResetPassword: React.FC = () => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>重置密码</h2>
-      {error && <div className="error-message">{error}</div>}
-      {success && <div className="success-message">{success}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">邮箱:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="submit">发送重置链接</button>
-      </form>
-      
-      <div className="auth-links">
-        <p>记起密码了? <a href="/login">返回登录</a></p>
-      </div>
+    <div className="container flex items-center justify-center min-h-screen py-8">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">重置密码</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {error && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          {success && (
+            <Alert className="mb-6">
+              <AlertDescription>{success}</AlertDescription>
+            </Alert>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium">
+                邮箱
+              </label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              发送重置链接
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-2">
+          <div className="text-sm text-center">
+            记起密码了？
+            <Link href="/login" className="ml-1">
+              返回登录
+            </Link>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 }; 
